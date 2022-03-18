@@ -3,21 +3,20 @@ CPPFLAGS     =
 LDFLAGS      =
 LIBS         = -lm
 
-DESTDIR = ./
+DESTDIR = ./build/
+SRC_DIR = ./src/
 TARGET  = main
 
-OBJECTS := $(patsubst %.cpp,%.o,$(wildcard *.cpp))
+SRC = $(wildcard $(SRC_DIR)*.cpp)
+OBJ = $(patsubst $(SRC_DIR)%.cpp, $(DESTDIR)%.o, $(SRC))
 
-all: $(DESTDIR)$(TARGET)
+all: $(OBJ)
+	$(SYSCONF_LINK) -Wall $(LDFLAGS) -o $(DESTDIR)$(TARGET) $(OBJ) $(LIBS)
 
-$(DESTDIR)$(TARGET): $(OBJECTS)
-	$(SYSCONF_LINK) -Wall $(LDFLAGS) -o $(DESTDIR)$(TARGET) $(OBJECTS) $(LIBS)
-
-$(OBJECTS): %.o: %.cpp
+$(DESTDIR)%.o: $(SRC_DIR)%.cpp
 	$(SYSCONF_LINK) -Wall $(CPPFLAGS) -c $(CFLAGS) $< -o $@
 
 clean:
-	-rm -f $(OBJECTS)
+	-rm -f $(OBJ)
 	-rm -f $(TARGET)
 	-rm -f *.tga
-
