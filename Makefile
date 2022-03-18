@@ -18,5 +18,5 @@ $(DESTDIR)%.o: $(SRC_DIR)%.cpp
 
 clean:
 	-rm -f $(OBJ)
-	-rm -f $(TARGET)
+	-rm -f $(DESTDIR)$(TARGET)
 	-rm -f *.tga
